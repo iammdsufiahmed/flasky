@@ -6,7 +6,6 @@ from security import authenticate, identity
 from resources.user import UserRegister
 from resources.book import Books, BookList
 from resources.store import Store, StoreList
-from db import db
 
 app = Flask(__name__)
 app.secret_key = 'thisismyflaskjwtsecret'
@@ -15,12 +14,6 @@ app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 api = Api(app)
 jwt = JWT(app, authenticate, identity)
-
-
-@app.before_first_request
-def create_tables():
-    db.create_all()
-
 
 api.add_resource(BookList, '/books')
 api.add_resource(Books, '/book/<string:name>')
